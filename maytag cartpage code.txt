@@ -6,7 +6,7 @@ for (var i = 0; i < size; i++)
     function justNumbers(string)       
     {
         var numsStr = string.replace(/[^0-9.]/g, '');
-        return parseInt(numsStr);        
+        return parseInt(numsStr)        
     }
     pricenum = document.documentElement.getElementsByClassName("g-col-9 shopping-cart-tile__product-info")[i].getElementsByClassName("shopping-cart-tile-label")[0].getElementsByTagName("strong")[0].innerText;     
     price = justNumbers(pricenum) + ('.00');    
