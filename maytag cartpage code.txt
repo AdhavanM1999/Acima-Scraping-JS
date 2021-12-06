@@ -1,0 +1,142 @@
+var totdata = [];
+size = document.documentElement.getElementsByClassName("product-item-wrapper").length;
+for (var i = 0; i < size; i++)
+{    
+    productname = document.documentElement.getElementsByClassName("shopping-cart-tile-prod-name-container")[i].getElementsByTagName("a")[0].textContent.trim();
+    function justNumbers(string)       
+    {
+        var numsStr = string.replace(/[^0-9.]/g, '');
+        return parseInt(numsStr);        
+    }
+    pricenum = document.documentElement.getElementsByClassName("g-col-9 shopping-cart-tile__product-info")[i].getElementsByClassName("shopping-cart-tile-label")[0].getElementsByTagName("strong")[0].innerText;     
+    price = justNumbers(pricenum) + ('.00');    
+    sku = document.documentElement.getElementsByClassName("product_id")[i].getElementsByTagName("strong")[0].innerText;     
+    if (quantity = document.documentElement.getElementsByClassName("shopping-cart-quantity-dropdown")[i].getElementsByClassName("shopping-cart-quantity")[0] != undefined)       
+    {    
+        quantity = document.documentElement.getElementsByClassName("shopping-cart-quantity-dropdown")[i].getElementsByClassName("shopping-cart-quantity")[0].value;
+    }
+    else
+    {
+        quantity = document.documentElement.getElementsByClassName("shopping-cart-quantity-dropdown")[i].getElementsByTagName('strong')[0].innerText; 
+    }    
+    var obj = { 
+        "ProductName": productname, 
+        "ProductCost": price,   
+        "ProductSKU": sku, 
+        "ProductCategory": "0",  
+        "ProductQuantity": quantity,  
+        "ProductTax": "0", 
+        "ProductSubItemsTotal": "0",  
+        "ProductShippingCharges": "0",  
+        "ProductDiscount": "0",   
+        "ProductGrandTotal": "0",   
+        "ProductDeliveryDate": "0"  
+    };   
+    totdata.push(obj);
+
+        
+    if(document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('g-row prod-item-services')[0] != undefined)
+    {  
+        var addonsize = document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('g-row prod-item-services').length;
+        for (j = 0; j < addonsize; j++)
+        { 
+            productname = document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('g-row prod-item-services')[j].getElementsByClassName("g-col-9 g-col-sm-9 g-col-md-9 g-col-lg-9")[0].textContent;   
+            price = document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('g-row prod-item-services')[j].getElementsByClassName("g-col-2 service-price-label")[0].getElementsByClassName("service-price")[0].textContent.trim().split('$')[1].replace(/,/g,'');   
+            var obj = {
+                "ProductName": productname,
+                "ProductCost": price,
+                "ProductSKU": "0",
+                "ProductCategory": "0",
+                "ProductQuantity": "1",
+                "ProductTax": "0",
+                "ProductSubItemsTotal": "0",
+                "ProductShippingCharges": "0",
+                "ProductDiscount": "0",
+                "ProductGrandTotal": "0",
+                "ProductDeliveryDate": "0"
+            };    
+            totdata.push(obj);   
+        }    
+    }
+    if(document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('g-row prod-item-delivery-addons')[0] != undefined)    
+    {  
+    if(!(document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('g-row prod-item-delivery-addons')[0].getElementsByClassName('g-col')[0] != undefined))        
+    {     
+        if(document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('g-row prod-item-delivery-addons')[0].getElementsByClassName('g-col-9 g-col-sm-9 g-col-md-9 g-col-lg-9')[0].getElementsByClassName('delivery-addons-text')[0] != undefined)      
+        {   
+            if(document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('g-row prod-item-delivery-addons')[0].nextElementSibling != undefined)   
+            {
+                var InnerAddOn = document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('g-row prod-item-delivery-addons')[0].nextElementSibling.childElementCount;
+                for(j=0;j<InnerAddOn;j++)
+                {
+                    ProductName = document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('g-col-10')[j].textContent.trim();
+                    if(document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('g-row prod-item-services')[0] != undefined)
+                    {
+                        if(document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('service-price')[j+2].textContent.trim() == "FREE")
+                        {
+                            Price = "0";
+                        }
+                        else
+                        {
+                            Price = document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('service-price')[j+2].textContent.trim().split('$')[1];
+                        }
+                    }
+                    else
+                    {
+                        if(document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('service-price')[j+1].textContent.trim() == "FREE")
+                        {
+                            Price = "0";
+                        }
+                        else
+                        {
+                            Price = document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('service-price')[j+1].textContent.trim().split('$')[1];
+                        }
+                    }
+                    var obj = {
+                        "ProductName" : ProductName,
+                        "ProductSKU" : "0",
+                        "ProductCost" : Price,
+                        "ProductQuantity" : "1",
+                        "ProductCategory": "0",
+                        "ProductTax": "0",
+                        "ProductSubItemsTotal": "0",
+                        "ProductShippingCharges": "0",
+                        "ProductDiscount": "0",
+                        "ProductGrandTotal": "0",
+                        "ProductDeliveryDate": "0"
+                    };
+                    totdata.push(obj);   
+                }  
+            }  
+        }    
+        else
+        {
+            ProductName = document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('g-row prod-item-delivery-addons')[0].getElementsByClassName('g-col-9 g-col-sm-9 g-col-md-9 g-col-lg-9')[0].textContent.trim();
+            if(document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('g-row prod-item-delivery-addons')[0].getElementsByClassName('g-col-2 service-price-label')[0].textContent.trim() == "FREE")
+            {
+                Price = "0";
+            }
+            else
+            {
+                Price = document.getElementsByClassName('product-item-wrapper')[i].getElementsByClassName('prod-additional-services-tile order-summary-box-shadow')[0].getElementsByClassName('g-row prod-item-delivery-addons')[0].getElementsByClassName('g-col-2 service-price-label')[0].textContent.trim().split('$')[1];
+            }
+            var obj = {
+                "ProductName" : ProductName,
+                "ProductSKU" : "0",
+                "ProductCost" : Price,
+                "ProductQuantity" : "1",
+                "ProductCategory": "0",
+                "ProductTax": "0",
+                "ProductSubItemsTotal": "0",
+                "ProductShippingCharges": "0",
+                "ProductDiscount": "0",
+                "ProductGrandTotal": "0",
+                "ProductDeliveryDate": "0"
+            };
+            totdata.push(obj);     
+        }    
+    }
+ }
+}
+
+console.log(totdata);
