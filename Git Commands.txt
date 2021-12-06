@@ -24,4 +24,4 @@ git pull origin dev -r - to pull from other branch
 
 git fetch - to sell all datas
 
-smash and merge - merge all commits to single commits
+smash and merge - merge all commits to single 
